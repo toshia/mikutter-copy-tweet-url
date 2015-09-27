@@ -9,10 +9,10 @@ Module.new do
     menu[:copy_tweet_url] = {
       :slug => :copy_tweet_url,
       :name => 'ツイートのURLをコピー',
-      :condition => lambda{ |m| m.message.repliable? },
-      :exec => lambda{ |m| Gtk::Clipboard.copy("http://twitter.com/#!/#{m.message.user.idname}/status/#{m.message[:id]}") },
+      :condition => Plugin::Command[:HasOneMessage],
+      :exec => lambda{ |e| msg = e.messages[0] ; Gtk::Clipboard.copy("https://twitter.com/#{msg[:user].idname}/status/#{msg[:id_str]}") },
       :visible => true,
-      :role => :message }
+      :role => :timeline }
     [menu]
   }
 end
